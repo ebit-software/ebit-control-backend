@@ -1,5 +1,5 @@
 exports.init = (app) => {
-    const example = require('./example');
+    const auth = require('./auth');
 
-    app.use('/api',example);
+    app.use('/api/auth',auth);
 }
