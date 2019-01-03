@@ -1,7 +1,5 @@
-exports.express = {
-   host:'localhost',port:3000
+module.exports = {
+   port: process.env.PORT || 3000,
+   db: process.env.MONGODB || 'mongodb://127.0.0.1:27017/MailControl'
 }
 
-exports.mongodb = {
-   uri:'mongodb://127.0.0.1:27017/MailControl'
-}

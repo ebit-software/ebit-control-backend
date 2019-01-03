@@ -3,5 +3,5 @@ const express = require('./core/express');
 const db = require('./core/mongo');
 
 
-express.listen(config.express.port);
-db.connect(config.mongodb.uri);
+express.listen(config.port);
+db.connect(config.db);
