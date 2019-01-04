@@ -17,10 +17,10 @@ exports.decodeToken = (token) => {
     return new Promise((resolve,reject) => {
         try {
             const payload = jwt.decode(token, global.SECRET_TOKEN);
-            if(payload.exp <= moment().unix()) resolve({status:401,message:'Token expired'});
             resolve(payload);
         } catch (error) {
-            reject({status:500,message:'Invalid Token',error});
+            if(error == 'Error: Token expired') reject({status:401,message:'Token expired'})
+            if(error == 'Error: Signature verification failed') reject({status:401,message:'Signature verification failed'})
         }
     })
 }
