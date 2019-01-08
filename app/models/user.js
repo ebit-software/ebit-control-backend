@@ -9,7 +9,7 @@ const model = mongoose.model('User', new Schema({
     surname:{type: String, lowercase: true,trim: true},
     mail:{type: String, required: true, unique:true, lowercase: true, trim: true},
     password:{type: String, required: true},
-    displayname:{type: String, trim: true , default:null},
+    nick:{type: String, trim: true , default:null},
     avatar:{type: String, default: null},
     role:{type: String, default:'admin'},
     lastLogin:{type: Date , default:null}

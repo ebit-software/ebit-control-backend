@@ -6,8 +6,7 @@ exports.register = async (req,res,next) => {
         surname:req.body.surname,
         mail:req.body.mail,
         password:req.body.password,
-        displayname:req.body.displayname,
-        avatar:null
+        nick:req.body.nick
     });
 
     try {
@@ -27,10 +26,11 @@ exports.login = async (req,res,next) => {
         const user = await User.findOne({mail:req.body.mail}).exec();
         if(!user) return res.status(403).json({ok:false, message:'Unauthorized'});
         if(user.password != req.body.password) return res.status(403).json({ok:false, message:'Unauthorized'});
-
+ 
         //update last login
         const update = await User.findByIdAndUpdate(user._id,{lastLogin:Date.now()}).exec();
 
+        user.password = 'hash'
         res.status(200).json({ok:true,token:jwt.createToken(user),response:user});
         
     } catch (error) {
