@@ -10,8 +10,11 @@ exports.register = async (req,res,next) => {
     });
 
     try {
+        let mailTaken = await User.findOne({mail:req.body.mail}).exec();
+        if(mailTaken != null) return res.status(303).json({ok:false,message:'Mail already exists'})
+
         let newUser = await user.save();
-        res.status(201).json({ok:true,response:newUser});
+        res.status(201).json({ok:true,response:newUser,mailTaken});
     } catch (error) {
         res.status(500).json({ok:false, error:error})
     }

@@ -1,7 +1,7 @@
 exports.connect = (uri) => {
     const mongoose = require('mongoose');
     
-    mongoose.set('useCreateIndex', true);
+    // mongoose.set('useCreateIndex', true);
 
     mongoose.connect(uri, {useNewUrlParser: true}, (error) => {
         if(error) throw error;
