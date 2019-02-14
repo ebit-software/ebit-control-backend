@@ -1,7 +1,7 @@
 {
-  "name": "starter-express",
+  "name": "api",
   "version": "1.0.0",
-  "description": "Starter kit",
+  "description": "Mail Control - Api",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index",
@@ -15,7 +15,7 @@
     "express": "^4.16.4",
     "jwt-simple": "^0.5.5",
     "moment": "^2.23.0",
-    "mongoose": "^5.4.1",
+    "mongoose": "^5.4.8",
     "mongoose-unique-validator": "^2.0.2"
   },
   "devDependencies": {
