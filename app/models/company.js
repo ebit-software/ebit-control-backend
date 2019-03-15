@@ -35,7 +35,7 @@ const model = mongoose.model('Company', new Schema({
         activated_at:{type:Date},
         expired_at:{type:Date},
         updated_at:{type:Date , default:null},
-        state:{type:Boolean, default:false},
+        state:{type:Boolean, default:true},
     },
     package:{type:mongoose.Types.ObjectId},
     coords:[coords]

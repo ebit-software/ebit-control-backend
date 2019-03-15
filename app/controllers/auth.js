@@ -16,7 +16,7 @@ exports.register = async (req,res,next) => {
         await user.save();
         res.status(201).json({ok:true,response:user});
     } catch (error) {
-        res.status(500).json({ok:false, error:error});
+        res.status(500).json({ok:false,error});
     }
 
 }
@@ -35,7 +35,7 @@ exports.login = async (req,res,next) => {
         const update = await User.findByIdAndUpdate(user._id,{lastLogin:Date.now()}).exec();
 
         user.password = 'hash'
-        res.status(200).json({ok:true,token:jwt.createToken(user),response:user,update});
+        res.status(202).json({ok:true,token:jwt.createToken(user),response:user,update});
         
     } catch (error) {
         res.status(500).json({ok:false, error:error});

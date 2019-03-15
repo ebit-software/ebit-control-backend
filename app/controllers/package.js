@@ -17,7 +17,30 @@ exports.create = async (req,res,next) => {
 
     try {
         await package.save();
-        res.status(200).json({ok:true, response:package});
+        res.status(201).json({ok:true, response:package});
+    } catch (error) {
+        next(error);
+    }
+}
+
+exports.delete = async (req,res,next) => {
+    const Package = require('../models/package');
+    const id = req.params.id;
+
+    try {
+        const package = await Package.findByIdAndDelete(id).exec();
+        res.status(200).json({ok:true,package});
+    } catch (error) {
+        res.status(500).json({ok:false,error});
+    }
+};
+
+exports.get = async (req,res,next) => {
+    const Package = require('../models/package');
+
+    try {
+        let packages = await Package.find().exec();
+        res.status(200).json({ok:true,data:{results:packages}});
     } catch (error) {
         next(error);
     }
