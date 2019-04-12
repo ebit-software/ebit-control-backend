@@ -6,7 +6,7 @@ const isAuth = (req,res,next) => {
 
     jwt.decodeToken(token).then((response) => {
        req.payload = response;
-       console.log(response);
+    //    console.log(response);
        next()
     }).catch(error => res.status(error.status).json({error}));
 

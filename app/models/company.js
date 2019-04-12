@@ -20,27 +20,26 @@ const model = mongoose.model('Company', new Schema({
     ruc:{type:String, lowercase:true, trim:true},
     owner:{
         name:{type:String, lowercase:true, trim:true},
-        mail:{type:String, lowercase:true, trim:true},
-        contacts:[contacts]
+        mail:{type:String, lowercase:true, trim:true}
     },
+    contacts:[contacts],
     domain:{
         name:{type:String, lowercase:true, trim:true},
-        created_at:{type:Date},
-        expired_at:{type:Date},
-        updated_at:{type:Date ,default:null}
+        created_at:{type:String},
+        expired_at:{type:String},
+        updated_at:{type:String ,default:null}
     },
     account:{
         username:{type:String},
-        setup_date:{type:Date},
-        activated_at:{type:Date},
-        expired_at:{type:Date},
-        updated_at:{type:Date , default:null},
+        setup_date:{type:String},
+        activated_at:{type:String},
+        expired_at:{type:String},
+        updated_at:{type:String , default:null},
         state:{type:Boolean, default:true},
     },
     package:{type:mongoose.Types.ObjectId},
     coords:[coords]
 },{versionKey:false}));
-
 
 
 module.exports = model;

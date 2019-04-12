@@ -1,5 +1,5 @@
 
-exports.listen = (port) => {
+exports.listen = (port,host) => {
     const express = require('express');
     const cors = require('cors');
     const http = require('http');
@@ -17,8 +17,8 @@ exports.listen = (port) => {
     routes.init(app);
 
 
-    server.listen(port,() => {
-        console.log(`escuchando en el puerto ${port}`);
+    server.listen(port,host,() => {
+        console.log(`escuchando en ${host}:${port}`);
     })
 }
 
