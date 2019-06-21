@@ -5,6 +5,6 @@ const isAuth = require('../middlewares/auth');
 
 
 app.get('/get', isAuth, controller.get);
-app.get('/test', controller.test);
+app.get('/count', controller.count);
 
 module.exports = app;

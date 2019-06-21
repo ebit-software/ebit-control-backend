@@ -1,4 +1,4 @@
-exports.sendProform = (to,subject,text) => {
+exports.sendProform = (to,subject,text,package) => {
   return new Promise((resolve,reject) => {
 
     const nodemailer = require("nodemailer");
@@ -17,29 +17,40 @@ exports.sendProform = (to,subject,text) => {
         rejectUnauthorized: false
       }
     });
-    
-    //paquetes
 
-    let basicPdf = path.join(__dirname,'../../public/packages/paquete_basico/paquete_basico.pdf');
-    let basicImg = path.join(__dirname,'../../public/packages/paquete_basico/paquete_basico.png');
 
-    let businessPdf = path.join(__dirname,'../../public/packages/paquete_negocios/paquete_negocios.pdf');
-    let businessImg = path.join(__dirname,'../../public/packages/paquete_negocios/paquete_negocios.png');
+    if(package == 'basic'){
+      var pdf = path.join(__dirname,'../../public/packages/paquete_basico/paquete_basico.pdf');
+      var img = path.join(__dirname,'../../public/packages/paquete_basico/paquete_basico.png');
+    }else if(package == 'business'){
+      var pdf = path.join(__dirname,'../../public/packages/paquete_negocios/paquete_negocios.pdf');
+      var img = path.join(__dirname,'../../public/packages/paquete_negocios/paquete_negocios.png');
+    }else if(package == 'enterprise'){
+      var pdf = path.join(__dirname,'../../public/packages/paquete_empresarial/paquete_empresarial.pdf');
+      var img = path.join(__dirname,'../../public/packages/paquete_empresarial/paquete_empresarial.png');
+    };
 
-    let enterprisePdf = path.join(__dirname,'../../public/packages/paquete_empresarial/paquete_empresarial.pdf');
-    let enterpriseImg = path.join(__dirname,'../../public/packages/paquete_empresarial/paquete_empresarial.png');
 
-    let html =  `<img src="cid:img"/><br><p>${text}</p>`;
+    let html = 
+    `<style type="text/css">
+        img{
+          width: 30em;
+        }
+      </style>
+      <p>${text}</p>
+      <br/>
+      <img src="cid:paquete"/>
+      <br/>
+      <p>Atentamente, </br></br> <b>Ebit Software</b> </p>`;
   
     let mailOptions = {
       from: 'ventas@ebit-software.com',
       to: to, 
       subject: subject,
-      text: text, // plain text body
       html: html,
       attachments: [
-        { filename: 'Plan de Negocios.png', path: businessImg, cid: 'img'},
-        { filename: 'Plan de Negocios.pdf', path:businessPdf ,contentType: 'application/pdf'}
+        { filename: 'Paquete.png', path: img, cid: 'paquete'},
+        { filename: 'Proforma.pdf', path: pdf, contentType: 'application/pdf'}
       ]
     };
   

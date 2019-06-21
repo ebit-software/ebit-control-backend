@@ -1,4 +1,39 @@
-exports.create = async (req,res,next) => {
+
+exports.search = async (req,res) => {
+    const Package = require('../models/package');
+    let value = new RegExp(req.params.value,'i');//usando regex i se transforma a minuscula
+    try {
+        let companies =  await Company.find({"name":{$in:value}}).exec();
+        let count = await Company.estimatedDocumentCount().exec();
+        res.status(200).json({ok:true, data:{count,results:companies}});
+    } catch (error) {
+        res.status(500).json({ok:false,error});
+    }
+};
+
+exports.get = async (req,res,next) => {
+    const Package = require('../models/package');
+    const count = await Package.estimatedDocumentCount().exec();
+
+    try {
+        let packages = await Package.find().exec();
+        res.status(200).json({ok:true, data:{count,results:packages}});
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.count = async (req,res) => {
+    try {
+        const Package = require('../models/package');
+        let count = await Package.estimatedDocumentCount().exec();
+        res.status(200).json({ok:true, count});
+    } catch (error) {
+       res.status(500).json({ok:false, error});
+    }
+}
+
+exports.create = async (req,res) => {
     const Package = require('../models/package');
     
     const package = new Package({
@@ -19,11 +54,11 @@ exports.create = async (req,res,next) => {
         await package.save();
         res.status(201).json({ok:true, response:package});
     } catch (error) {
-        next(error);
+        res.status(500).json({ok:false, error});
     }
 };
 
-exports.delete = async (req,res,next) => {
+exports.delete = async (req,res) => {
     const Package = require('../models/package');
     const id = req.params.id;
 
@@ -38,26 +73,4 @@ exports.delete = async (req,res,next) => {
     }
 };
 
-exports.get = async (req,res,next) => {
-    const Package = require('../models/package');
-    const count = await Package.estimatedDocumentCount().exec();
 
-    try {
-        let packages = await Package.find().exec();
-        res.status(200).json({ok:true, data:{count,results:packages}});
-    } catch (error) {
-        next(error);
-    }
-};
-
-exports.search = async (req,res) => {
-    const Package = require('../models/package');
-    let value = new RegExp(req.params.value,'i');//usando regex i se transforma a minuscula
-    try {
-        let companies =  await Company.find({"name":{$in:value}}).exec();
-        let count = await Company.estimatedDocumentCount().exec();
-        res.status(200).json({ok:true, data:{count,results:companies}});
-    } catch (error) {
-        res.status(500).json({ok:false,error});
-    }
-};

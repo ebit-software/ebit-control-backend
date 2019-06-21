@@ -1,4 +1,43 @@
-exports.update = async (req,res,next) => {
+
+exports.get = async (req,res) => {
+
+    const User = require('../models/user');
+    let unregistred = Boolean(req.params.unregistred);
+
+    if(unregistred === true) {
+        try {
+            const users = await User.find({'mail':null}).select({role:1}).exec();
+            let count = await User.countDocuments({"mail":null}).exec();
+            res.status(200).json({ok:true, data:{count,results:users}})
+        } catch (error) {
+            res.status(500).json({ok:false, error})
+        }
+    }else{
+        try {
+            const results = await User.find({}).exec();
+            let count = await User.countDocuments({"mail":{ $ne: null }}).exec();
+            let filteredResults = results.filter((user) => { if(user.mail != null) return user; })
+            res.status(200).json({ok:true, data:{count, results:filteredResults}});
+        } catch (error) {
+            res.status(500).json({ok:false, error});
+        }
+    }
+};
+
+exports.count = async (req,res) => {
+
+    try {
+        const User = require('../models/user');
+        let count = await User.countDocuments({"mail":{ $ne: null }}).exec();
+        res.status(200).json({ok:true, count});
+    } catch (error) {
+        res.status(500).json({ok:false, error});
+    } 
+
+}
+
+exports.update = async (req,res) => {
+
     const User = require('../models/user');
 
     if(req.params.id) {
@@ -41,12 +80,9 @@ exports.update = async (req,res,next) => {
             res.status(500).json({ok:false, error});
         }
     }
-    
-
-
 }
 
-exports.delete = async (req,res,next) => {
+exports.delete = async (req,res) => {
     const User = require('../models/user');
 
     try {
@@ -57,51 +93,19 @@ exports.delete = async (req,res,next) => {
     }
 }
 
-exports.get = async (req,res,next) => {
-
+exports.search = async (req,res) => {
     const User = require('../models/user');
-    let unregistred = Boolean(req.params.unregistred);
 
-    if(unregistred === true) {
-        try {
-            const users = await User.find({'mail':null}).select({role:1}).exec();
-            let count = await User.countDocuments({"mail":null}).exec();
-            res.status(200).json({ok:true, data:{count,results:users}})
-        } catch (error) {
-            res.status(500).json({ok:false, error})
-        }
-    }else{
-        try {
-            const results = await User.find({}).exec();
-            let count = await User.countDocuments({"mail":{ $ne: null }}).exec();
-            let filteredResults = results.filter((user) => { if(user.mail != null) return user; })
-            res.status(200).json({ok:true, data:{count, results:filteredResults}});
-        } catch (error) {
-            next(error);
-        }
-    }
-};
-
-exports.search = async (req,res,next) => {
-    const User = require('../models/user');
-    console.log(req.params.value);
-    console.log(null);
     if(req.params.value == null) {
-        //obtendra solo los correos
-        console.log('buscando los nulos');
-        console.log(req.params.value);
         try {
             const users = await User.find({'mail':null}).select({role:1}).exec();
-            console.log(users.length);
             res.status(200).json({ok:true, data:{count,results:users}});
         } catch (error) {
             res.status(500).json({ok:false, error})
         };
 
     }else{
-        //obtendra la busqueda por correo y nombres y apellidos
-        res.status(200).json({ok:true,message:'else'});
-        
+        res.status(200).json({ok:true,message:'else'}); 
     }
 };
 

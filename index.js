@@ -5,3 +5,9 @@ const db = require('./core/mongo');
 
 express.listen(config.port,config.host);
 db.connect(config.db);
+
+const tasks = require('./app/tasks');
+tasks.init();
+
+
+

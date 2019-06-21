@@ -1,4 +1,4 @@
-exports.register = async (req,res,next) => {
+exports.register = async (req,res) => {
     const User = require('../models/user');
 
     const user = new User({
@@ -29,7 +29,7 @@ exports.register = async (req,res,next) => {
 
 }
 
-exports.login = async (req,res,next) => {
+exports.login = async (req,res) => {
     const User = require('../models/user');
     const jwt = require('../services/jwt');
 
